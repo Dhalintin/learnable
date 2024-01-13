@@ -10,13 +10,13 @@ Git is the technology that helps in version controll while GitHub is the web pla
 Git tracks your code and GitHub is the platform to store your code
 Git focuses on managing and keeping track of your versions while GitHub is a platform for social coding and collaboration on projects
 
-##
+## Alternatives to GitHub
 
-GitLab
-Azure DevOps
-AWS CodeCommit
+1. GitLab
+2. Azure DevOps
+3. AWS CodeCommit
 
-##
+## Differences between Git Fetch and Git Pull
 
 1. Git fetch gets all the latest changes from the remote repository without merging them into your local working directory while git pull combines git fetch with git merge and fetches all the latest changes from the remote repository and attempts to merge them into your current local branch
 
