@@ -1,0 +1,45 @@
+//To create a new Roomtype using the Post method
+http://localhost:3000//api/v1/roomtype
+
+/*You are expected to fill the following details about the roomtype
+    {
+        "name" : Put the name in double/single quote
+    }
+
+*/
+
+//To create a new Room using the Post method
+http://localhost:3000/api/v1/rooms
+/*You are expected to fill the following details about the roomtype
+    {
+        "name" : Put the name in double/single quote,
+        "room_type": Put the ID of the room type here,
+        "price": put the price
+    }
+
+*/
+
+//To Delete or Update a Room using the Delete or Patch method to the URL and for Patch, add the new values
+http://localhost:3000//api/v1/roomtype/{roomId}
+
+/*Send a get request to*/
+//Get all rooms with roomtype
+http://localhost:3000/api/v1/rooms
+
+//Get all rooms with a specific room name
+http://localhost:3000/api/v1/rooms?search='RoomName'
+
+//Get all specific room type
+http://localhost:3000/api/v1/rooms?room_Type='RoomTypeName'
+
+//Get all rooms with a minimum price
+http://localhost:3000/api/v1/rooms?minPrice=amount
+
+//Get all rooms with a maximum price
+http://localhost:3000/api/v1/rooms?maxPrice=amount
+
+//Get all rooms with a minimum & maximum price
+http://localhost:3000/api/v1/rooms?minPrice=2500&maxPrice=4000
+
+//Get all rooms of a specific room type, with a minimum and a maximum price
+http://localhost:3000/api/v1/rooms?room_Type='Presidential'&minPrice=2500&maxPrice=4000
