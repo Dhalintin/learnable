@@ -10,7 +10,7 @@
   <ul id="room-list"></ul>
 
   <script>
-    const roomList = document.getElementById('room-list'); // Get the UL element
+    const roomList = document.getElementById('room-list');
 
     document.addEventListener("DOMContentLoaded", function() {
       loadRoom();
@@ -20,18 +20,15 @@
         fetch('http://localhost:3000/api/v1/rooms')
         .then(response => response.json())
         .then(data => {
-          // Process the rooms data here
-          displayRooms(data.rooms); // Call a function to display rooms
+          displayRooms(data.rooms);
         })
         .catch(error => {
           console.error('Error fetching rooms:', error);
-          // Handle errors gracefully (e.g., display an error message to the user)
         });
     }
 
     function displayRooms(rooms) {
-      // Clear the existing list items before adding new ones (optional)
-      roomList.innerHTML = ''; // Optional: Clear previous content
+      roomList.innerHTML = '';
 
       rooms.forEach(room => {
         const listItem = document.createElement('li');
@@ -53,7 +50,6 @@
         })
         .catch(error => {
             console.error("Error fetching room:", error);
-            // Handle errors appropriately, e.g., display an error message to the user
         });
 
     }

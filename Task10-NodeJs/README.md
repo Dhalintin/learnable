@@ -21,3 +21,7 @@
 #### 3. In the file named `testurl.txt`, copy any of the links to test the functionalities described above the link
 
 #### 4. Run the following code to `npm run serve` and use any of the link in the Postman software to test it
+
+## Extra
+
+#### It is important to note that the `index.html` file contains a frontend application of the API and how it can be used to get the details and present it in the frontend. However, it was not styled as it was a just a test for frontend application
