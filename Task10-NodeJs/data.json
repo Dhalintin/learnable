@@ -1,0 +1,37 @@
+[
+  {
+    "_id": "ObjectId0001",
+    "name": "Tinubu",
+    "room_type": "65f86a8a98ebbae807f9ddef",
+    "price": 5400
+  },
+  {
+    "_id": "ObjectId0001",
+    "name": "Atiku",
+    "room_type": "65f86a8a98ebbae807f9ddef",
+    "price": 4500
+  },
+  {
+    "id": "65f5a6297a82d4b581cdb129",
+    "name": "Kwankwaso",
+    "room_type": "65f485df2c3e9dea3442eabc",
+    "price": 1000
+  },
+  {
+    "id": "65f866682ba7d37b6b8bbfdf",
+    "name": "Room 4H",
+    "room_type": "65f485df2c3e9dea3442e6f5",
+    "price": 2000
+  },
+  {
+    "id": "65f86a8a98ebbae807f9d3ac",
+    "name": "Peter",
+    "room_type": "65f485df2c3e9dea3442e6f5",
+    "price": 30000
+  },
+  {
+    "_id": "RoomId6",
+    "name": "Peter Obi",
+    "price": "30300"
+  }
+]

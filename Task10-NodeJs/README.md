@@ -12,6 +12,8 @@
 
 ## Running the code
 
+### To run the code online
+
 ### To run it locally on your device
 
 #### 1. Pull this repo to your local machine

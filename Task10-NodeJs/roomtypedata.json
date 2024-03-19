@@ -1,0 +1,14 @@
+[
+  {
+    "_id": "roomtypeid001",
+    "name": "Presidential"
+  },
+  {
+    "_id": "roomtypeid002",
+    "name": "Single"
+  },
+  {
+    "_id": "roomtypeid003",
+    "name": "Double"
+  }
+]
