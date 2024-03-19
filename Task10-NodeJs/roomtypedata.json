@@ -4,11 +4,11 @@
     "name": "Presidential"
   },
   {
-    "_id": "roomtypeid002",
+    "_id": "roomtypeid001",
     "name": "Single"
   },
   {
-    "_id": "roomtypeid003",
+    "_id": "roomtypeid001",
     "name": "Double"
   }
 ]

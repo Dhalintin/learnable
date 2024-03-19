@@ -6,6 +6,7 @@ const Room = require('../models/room');
 const RoomType = require('../models/roomtype')
 const fs = require('fs');
 const data = JSON.parse(fs.readFileSync('roomdata.json', 'utf8'));
+const roomTypeData = JSON.parse(fs.readFileSync('roomtypedata.json', 'utf8'));
 
 
 //Get all Room with or without a specific parameters
@@ -32,11 +33,14 @@ router.get('/', (req, res) => {
         const filteredRooms = data.filter(room => {
             let isValid = true;
             if (filter.name) isValid = isValid && filter.name.match(room.name);
-            if (filter.room_type) isValid = isValid && room.room_type === filter.room_type;
+            if (filter.room_type) {
+                const matchingRoomType = roomTypeData.find(type => type._id == room.room_type);
+                isValid = isValid && !!matchingRoomType;
+              }
             if (filter.price) isValid = isValid && room.price >= filter.price.$gte && room.price <= filter.price.$lte;
             return isValid;
           });
-        
+
           res.status(200).json({ rooms: filteredRooms});
 
     }catch(error){
@@ -48,12 +52,15 @@ router.get('/', (req, res) => {
 //Create a new Room 
 router.post('/', (req, res) => {
     const data = JSON.parse(fs.readFileSync('roomdata.json', 'utf8'));
-
+    const roomtype = roomTypeData.find(type => type._id === req.body.roomtype)
+    if(!roomtype){
+        return res.status(500).json({message: "Room type does not exist"});
+    }
     const newRoomId = `RoomId${data.length + 1}`;
     const newRoom = {
         _id: newRoomId,
         name: req.body.name,
-        room_type: req.body.roomtype,
+        room_type: roomtype.name,
         price: req.body.price
     };
 

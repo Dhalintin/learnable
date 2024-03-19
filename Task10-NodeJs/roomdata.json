@@ -2,30 +2,31 @@
   {
     "_id": "RoomId1",
     "name": "Atiku",
-    "room_type": "65f86a8a98ebbae807f9ddef",
+    "room_type": "Presidential",
     "price": 4500
   },
   {
     "_id": "RoomId2",
     "name": "Kwankwaso",
-    "room_type": "65f485df2c3e9dea3442eabc",
+    "room_type": "Double",
     "price": 1000
   },
   {
     "_id": "RoomId3",
     "name": "Room 4H",
-    "room_type": "65f485df2c3e9dea3442e6f5",
+    "room_type": "Single",
     "price": 2000
   },
   {
     "_id": "RoomId5",
     "name": "Peter",
-    "room_type": "65f485df2c3e9dea3442e6f5",
+    "room_type": "Presidential",
     "price": 30000
   },
   {
     "_id": "RoomId1",
     "name": "Peter Obi",
+    "room_type": "Presidential",
     "price": "30300"
   }
 ]
