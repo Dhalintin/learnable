@@ -4,9 +4,6 @@ const { default: mongoose } = require('mongoose');
 const router = express.Router();
 const Room = require('../models/room');
 const RoomType = require('../models/roomtype')
-const fs = require('fs');
-const data = JSON.parse(fs.readFileSync('roomdata.json', 'utf8'));
-const roomTypeData = JSON.parse(fs.readFileSync('roomtypedata.json', 'utf8'));
 
 
 //Get all Room with or without a specific parameters
@@ -14,139 +11,142 @@ router.get('/', (req, res) => {
     const filter = {};
 
     if (req.query.search) {
-        filter.name = new RegExp(req.query.search, 'i');
+        filter.$text = { $search: req.query.search };
     }
     if (req.query.roomType) {
         filter.room_type = req.query.roomType;
     }
     if (req.query.minPrice) {
-        filter.price = { $gte: req.query.minPrice, $lte: Number.POSITIVE_INFINITY};
+        filter.price = { $gte: req.query.minPrice };
     }
     if (req.query.maxPrice) {
         filter.price = { ...filter.price, $lte: req.query.maxPrice };
         if (!req.query.minPrice) {
-          filter.price = { $lte: req.query.maxPrice, $gte: 0 };
+        filter.price = { $lte: req.query.maxPrice, $gte: 0 };
         }
-      }
+    }
 
     try{
-        const filteredRooms = data.filter(room => {
-            let isValid = true;
-            if (filter.name) isValid = isValid && filter.name.match(room.name);
-            if (filter.room_type) {
-                const matchingRoomType = roomTypeData.find(type => type._id == room.room_type);
-                isValid = isValid && !!matchingRoomType;
-              }
-            if (filter.price) isValid = isValid && room.price >= filter.price.$gte && room.price <= filter.price.$lte;
-            return isValid;
-          });
-
-          res.status(200).json({ rooms: filteredRooms});
+        Room.find(filter)
+        .exec()
+        .then(async (docs) => {
+            const roomsWithTypes = await Promise.all(
+                docs.map(async (doc) => {
+                    const roomType = await RoomType.findById(doc.room_type);
+                    const data = {
+                            _id: doc._id,
+                            name: doc.name,
+                            room_type: roomType,
+                            price: doc.price,
+                            request: {
+                              type: 'GET',
+                              url: 'http://localhost:3000/room/' + doc._id
+                            }
+                          };
+                    console.log(data)
+                    return data;
+                    })
+                  );
+            res.status(200).json({ rooms: roomsWithTypes });
+        })
+        .catch(err => {
+            res.status(500).json({message: err});
+        })
 
     }catch(error){
         res.status(500).json({message: error});
     };
+
+
+
 });
 
 
 //Create a new Room 
 router.post('/', (req, res) => {
-    const data = JSON.parse(fs.readFileSync('roomdata.json', 'utf8'));
-    const roomtype = roomTypeData.find(type => type._id === req.body.roomtype)
-    if(!roomtype){
-        return res.status(500).json({message: "Room type does not exist"});
-    }
-    const newRoomId = `RoomId${data.length + 1}`;
-    const newRoom = {
-        _id: newRoomId,
-        name: req.body.name,
-        room_type: roomtype.name,
-        price: req.body.price
-    };
-
-    data.push(newRoom);
-
-    fs.writeFileSync('roomdata.json', JSON.stringify(data, null, 2));
-
-    res.status(200).json(newRoom);
+    const rmtype = req.body.roomtype
+    RoomType.findById(rmtype)
+        .exec()
+        .then(roomtype => {
+            const room = new Room({
+                _id: new mongoose.Types.ObjectId(),
+                name: req.body.name,
+                room_type: roomtype._id,
+                price: req.body.price
+            })
+            room
+                .save()
+                .then(result => {
+                    console.log(result);
+                    res.status(200).json(result);
+                })
+                .catch(error => {errorMessage : error})
+        }).catch(err => {
+            res.status(500).json({
+                message: err
+            });
+        });
 });
 
 
 //Get a specific room by ID
 router.get('/:id', async (req, res) => {
-  try {
-    const data = JSON.parse(await fs.promises.readFile('roomdata.json', 'utf8'));
+    const id = req.params.id;
+    try{
+        const room =  await Room.findById(id).populate('room_type');
+        if(!room){
+            res.status(500).json({ message: "There are no rooms matching this ID" });
+        }
 
-    const room = data.find(room => room._id === req.params.id);
+        const roomDetails = {
+            _id: room.id,
+            name: room.name,
+            room_type: room.room_type.name,
+            request: {
+                type: 'GET',
+                url: 'http://localhost:3000/room/' + room._id
+            }
+        };
+        res.status(200).json(roomDetails);
 
-    if (!room) {
-      return res.status(404).json({ message: "There are no rooms matching this ID" });
+    }catch(error){
+        res.status(500).json({
+            message: error.message
+        })
     }
-
-    const roomDetails = {
-      _id: room._id,
-      name: room.name,
-      room_type: room.room_type,
-      request: {
-        type: 'GET',
-        url: `http://localhost:3000/room/${room._id}`
-      }
-    };
-
-    res.status(200).json(roomDetails);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Error retrieving room data" });
-  }
 });
 
 //Update a specific Room
-router.patch('/:id', async (req, res) => {
-  try {
-    const data = JSON.parse(await fs.promises.readFile('roomdata.json', 'utf8'));
-
-    const roomIndex = data.findIndex(room => room._id === req.params.id);
-
-    if (roomIndex === -1) {
-      return res.status(404).json({ message: "There are no rooms matching this ID" });
-    }
-
-    data[roomIndex] = {
-      ...data[roomIndex],
-      name: req.body.name,
-      room_type: req.body.type
-    };
-
-    await fs.promises.writeFile('roomdata.json', JSON.stringify(data, null, 2));
-
-    res.status(200).json(data[roomIndex]);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Error updating room data" });
-  }
+router.patch('/:id', (req, res) => {
+    const id = req.params.id;
+    Room.updateOne({_id: id}, {
+        $set: { name: req.body.name, room_type: req.body.type}
+    }).exec()
+    .then(result => {
+        console.log(result)
+        res.status(200).json(result);
+    })
+    .catch(err => {
+        res.status(500).json({
+            message: err
+        });
+    })
 });
 
 
 //Delete a specific room
-router.delete('/:id', async (req, res) => {
-    try {
-        const data = JSON.parse(await fs.promises.readFile('roomdata.json', 'utf8'));
-    
-        const roomIndex = data.findIndex(room => room._id === req.params.id);
-    
-        if (roomIndex === -1) {
-          return res.status(404).json({ message: "There are no rooms matching this ID" });
-        }
-    
-        data.splice(roomIndex, 1);
-    
-        await fs.promises.writeFile('roomdata.json', JSON.stringify(data, null, 2));
-    
-        res.status(200).json({ message: "Room deleted successfully" });
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Error deleting room data" });
-      }
+router.delete('/:id', (req, res) => {
+    const id = req.params.id;
+    Room.deleteOne({_id: id})
+        .exec()
+        .then(result => {
+            res.status(200).json(result);
+        })
+        .catch(err => {
+            res.status(500).json({
+                message: err
+            })
+        });
 });
 
 module.exports = router;

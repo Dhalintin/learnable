@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 const roomTypeRoute = require('./api/routes/roomtype');
 const roomRoute = require('./api/routes/room');
 
-// mongoose.connect(process.env.MONGODB_LINK);
+mongoose.connect(process.env.MONGODB_LINK);
 
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
