@@ -1,8 +1,8 @@
 {
-  "name": "noderest",
+  "name": "testdeployemnt",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "nodemon server.js"
@@ -11,12 +11,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^16.4.5",
     "express": "^4.18.3",
-    "mongoose": "^8.2.1"
+    "mongoose": "^8.2.2"
   },
   "devDependencies": {
-    "body-parser": "^1.20.2",
     "nodemon": "^3.1.0"
   }
 }
