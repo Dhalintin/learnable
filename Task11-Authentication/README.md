@@ -20,6 +20,18 @@
 
 #### 2. Rename the `example.env` file to `.env` and put the link to your MongoDB with the password as instructed on the mongoDB website
 
-#### 3. In the file named `testurl.txt`, copy any of the links to test the functionalities described above the link
+#### 3. Run the following code to `npm run serve` and use any of the link in the Postman software to test it
 
-#### 4. Run the following code to `npm run serve` and use any of the link in the Postman software to test it
+## Route Requirement when running the code
+
+### To sign up and log in you need
+
+#### Email and a password that contains 8 characters and user type which is guest by default if not added
+
+### To create a RoomType you need admin log in and details needed
+
+#### room name
+
+### To create a RoomType you need to be logged in and details needed
+
+#### room name, room_type (which will be the id of the roomtype) and price
