@@ -1,0 +1,32 @@
+[
+  {
+    "_id": "RoomId1",
+    "name": "Atiku",
+    "room_type": "Presidential",
+    "price": 4500
+  },
+  {
+    "_id": "RoomId2",
+    "name": "Kwankwaso",
+    "room_type": "Double",
+    "price": 1000
+  },
+  {
+    "_id": "RoomId3",
+    "name": "Room 4H",
+    "room_type": "Single",
+    "price": 2000
+  },
+  {
+    "_id": "RoomId5",
+    "name": "Peter",
+    "room_type": "Presidential",
+    "price": 30000
+  },
+  {
+    "_id": "RoomId1",
+    "name": "Peter Obi",
+    "room_type": "Presidential",
+    "price": "30300"
+  }
+]
