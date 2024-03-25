@@ -8,12 +8,6 @@ const Joi = require('joi');
 const { userSchemaValidation } = require('../validation');
 
 const signUp = async (req, res) => {
-    const { error } = userSchemaValidation.validate(req.body);
-    if(error){
-        return res.status(401).json({
-            message: error
-        })
-    }
     const email = req.body.email;
     const existingUser = await User.findOne({ email });
     if(existingUser){

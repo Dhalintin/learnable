@@ -5,14 +5,15 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const argon2 = require('argon2');
 const Joi = require('joi');
-const { userSchemaValidation } = require('../../validation');
+
+const userAuth = require('../middleware/user.validation');
 const controller = require('../../controllers/user.controller');
 
 //Sign Up
-router.post('/signup', controller.signUp)
+router.post('/signup', userAuth, controller.signUp)
 
 //Log in
-router.post('/login', controller.login)
+router.post('/login', userAuth, controller.login)
 
 //Get all User
 router.get('/', controller.getUser);

@@ -7,11 +7,13 @@ const Joi = require('joi');
 const { roomTypeSchemaValidation } = require('../../validation');
 const controller = require('../../controllers/roomtype.controller')
 
+const roomTypeAuth = require('../middleware/roomtype.validation');
+
 //Get all RoomTypes
 router.get('/', controller.getAllRoomTypes);
 
 //Create new Room Types
-router.post('/', checkAuth, controller.addNewRoomType);
+router.post('/', roomTypeAuth, checkAuth, controller.addNewRoomType);
 
 // Get a specific roomtype by ID
 router.get('/:id', controller.getRoomType);
