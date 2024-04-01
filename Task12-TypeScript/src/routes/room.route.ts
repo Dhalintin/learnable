@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import { Router } from 'express';
 import controller from '../controllers/roomController';
-import roomValidation from '../middlewares/room.validation';
+// import roomValidation from '../middlewares/room.validation';
 import userAuth from '../middlewares/user.auth'
 
 const router: Router = express.Router();
@@ -11,7 +11,7 @@ const router: Router = express.Router();
 router.get('/', controller.getAllRooms);
 
 // Create a new room
-router.post('/', userAuth, roomValidation, controller.addNewRoom);
+router.post('/', userAuth, controller.addNewRoom);
 
 // Get a specific room by ID
 router.get('/:id', controller.getRoom);
